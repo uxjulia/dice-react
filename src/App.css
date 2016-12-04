@@ -1,0 +1,161 @@
+#buttonContainer{
+  margin-top: 15px;
+}
+
+.digit {
+  width: 31%;
+  margin: 3px;
+  min-height: 50px;
+}
+
+.dice-box {
+  padding: 5px;
+}
+
+.digit-box{
+  margin-left:3px;
+}
+
+.fa-user{
+  margin: 2px;
+}
+
+.dice {
+  padding: 4px;
+  height: 40px;
+  width: 40px;
+  background-color: rgba(88, 93, 97, 0.8);
+  border-radius: 5px; }
+
+.pip {
+  background-color: #fff;
+  height: 5px;
+  width: 5px;
+  border-radius: 50px; }
+
+.pip-container {
+  margin-top: 3px;
+  margin-bottom: 5px; }
+
+.pip#1 {
+  margin-right: 4px; }
+
+.rotate_right {
+  float: left;
+  -ms-transform: rotate(16deg);
+  /* IE 9 */
+  -webkit-transform: rotate(16deg);
+  /* Safari */
+  transform: rotate(16deg); }
+
+canvas#diceChart {
+  max-height: 600px; }
+
+/*.digit-box button {
+  width: 31%;
+  min-height: 50px; }*/
+
+div#input {
+  margin-top: 10px; }
+
+header {
+  margin-bottom: 20px; }
+
+.wrapper p#footer-text {
+  text-align: center;
+  font-size: .9em; }
+
+div.reset {
+  margin-top: 30px; }
+
+button#reset {
+  background-color: #eeeeee;
+  width: 97%;
+  margin-left:3px;
+ }
+
+button#undo {
+  background-color: rgba(193, 160, 160, 0.8); }
+
+div#rolls {
+  max-height: 70px;
+  overflow-y: auto;
+  margin-bottom: 1px; }
+
+.site-icon {
+  margin-right: 20px;
+  float: left;
+  padding: 10px; }
+
+img#icon-svg {
+  width: 50px; }
+
+.digit-box {
+  margin-top: 0; }
+
+span.glyphicon-heart {
+  color: #D54343; }
+
+span.glyphicon-user {
+  color: #e3e3e3;
+  margin-right: 15px; }
+
+span.glyphicon.turn {
+  color: #72a6ca;
+  margin-right: 15px; }
+
+span#total-txt {
+  font-size: 12.6px; }
+
+span.history-text {
+  float: left;
+  padding-left: 5px; }
+
+div.last-roll {
+  font-size: 15.4px;
+  padding: 5px 15px; }
+
+div#rolls :first-child {
+  color: #D54343; }
+
+span.last-roll-title {
+  padding-right: 10px; }
+
+div#lr-text {
+  padding-right: 5px;
+  float: left;
+  display: inline-block; }
+
+div#numbers .form-group {
+  padding-left: 10px; }
+
+select#users {
+  font-size: small; }
+
+#settingsPanel {
+  padding-bottom: 0px; }
+
+.panel-body#settingsPanel .form-group {
+  margin-top: 5px; }
+
+label#nextUp {
+  margin-top: 0; }
+
+.user-icons {
+  margin: 5px 0; }
+
+button#settingsBtn {
+  color: #72a6ca; }
+
+#collapsePanel {
+  margin-top: 15px; }
+
+#playerNameInputs input {
+  font-size: 14px; }
+
+.site-header {
+  border-top: 5px solid #424242;
+  /*border-bottom: 1px solid #e8e8e8;*/
+  min-height: 56px;
+  position: relative;
+}
