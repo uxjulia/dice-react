@@ -8,11 +8,11 @@ import '../font-awesome-4.7.0/css/font-awesome.css';
 $();
 
 var PLAYERS = [
-{name: "Stella"},
-{name: "Jenie"},
-{name: "Julia"},
-{name: "Mocha"},
-{name: "Bailey"}
+{key: 1, name: "Stella"},
+{key: 2, name: "Jenie"},
+{key: 3, name: "Julia"},
+{key: 4, name: "Mocha"},
+{key: 5, name: "Bailey"}
 ];
 
 function Layout(props) {
@@ -28,7 +28,7 @@ function Layout(props) {
             {props.right}
           </div>
         </div>
-      </div> 
+      </div>
     </div>
   )
 }
@@ -65,11 +65,34 @@ class InfoPanel extends Component {
     super(props);
     this.setPlayer = this.setPlayer.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.state = {nextUp: "", data: []};
+    this.handleReset = this.handleReset.bind(this);
+    this.handleUndo = this.handleUndo.bind(this);
+    this.state = {nextUp: "Jenie", data: []};
   }
 
   setPlayer(e) {
-    this.setState({nextUp: e.target.id });
+    this.setState({nextUp: e.target.title});
+  }
+
+  getPlayer() {
+    const players = this.props.players;
+    const currentPlayer = this.state.nextUp;
+    var nx = players.find(function(players) {
+        return players.name === currentPlayer;
+    });
+    return nx; 
+  }
+
+  setNext(){
+    const players = this.props.players;
+    const nextPlayer = this.getPlayer();
+    var x = (nextPlayer.key) + 1;
+    if (x > players.length) x = 1
+    var nextPerson = players.find(function(players){   
+      return players.key === x;
+    }); // test
+    const nextName = nextPerson.name;
+    this.setState({nextUp: nextName})
   }
 
   updateData(x){
@@ -81,7 +104,18 @@ class InfoPanel extends Component {
 
   handleClick(e) {
     var x = this.updateData(e.target.id);
+    this.setNext();
     this.setState({data: x});
+  }
+
+  handleReset() {
+    this.setState({data: []});
+  }
+
+  handleUndo() {
+    const data = this.state.data;
+    data.pop();
+    this.setState({data: data});
   }
 
   render(){
@@ -92,16 +126,16 @@ class InfoPanel extends Component {
       <div>
         <div className="card card-block pb-0">
           <div className="form-group">
-            <NextPlayer onClick={this.setPlayer} nextUp={nextUp} players={players}/> 
+            <NextPlayer onClick={this.setPlayer} nextUp={nextUp} players={players}/>
           </div>
         </div>
         <div className="card card-block">
           <div className="form-group">
             <LoggedRolls data={data}/>
           </div>
-        </div>    
+        </div>
           <div className="form-group">
-            <DiceInput onClick={this.handleClick}/>
+            <DiceInput onClick={this.handleClick} onReset={this.handleReset} onUndo={this.handleUndo}/>
           </div>
         <div className="card card-block">
           <div className="form-group">
@@ -122,7 +156,8 @@ class NextPlayer extends Component {
   }
 
   handleHover(e) {
-    this.setState({hover: e.target.id});
+    var x = e.target.title;
+    this.setState({hover: x});
   }
   handleLeave(e) {
     this.setState({hover: ""});
@@ -138,13 +173,13 @@ class NextPlayer extends Component {
     const handleClick = this.props.onClick;
     const handleHover = this.handleHover;
     const handleLeave = this.handleLeave;
-    
+
     this.props.players.forEach(function(players){
-      uid++; 
+      uid++;
       if (players.name === nextUp){
-        totalPlayers.push(<button key={uid} onMouseOver={handleHover} onMouseLeave={handleLeave} onClick={handleClick} id={players.name} title={players.name} className="nextPlayer btn btn-link btn-sm"><i style={nextStyle} key={uid} id={players.name} className="fa fa-user" aria-hidden="true"/></button>);
+        totalPlayers.push(<button key={uid} onMouseOver={handleHover} onMouseLeave={handleLeave} onClick={handleClick} id={players.key} title={players.name} className="nextPlayer btn btn-link btn-sm"><i style={nextStyle} key={uid} id={players.key} title={players.name} className="fa fa-user" aria-hidden="true"/></button>);
       } else {
-        totalPlayers.push(<button key={uid} onMouseOver={handleHover} onMouseLeave={handleLeave} onClick={handleClick} id={players.name} title={players.name} className="btn btn-link btn-sm"><i key={uid} className="fa fa-user" id={players.name} aria-hidden="true"/></button>);
+        totalPlayers.push(<button key={uid} onMouseOver={handleHover} onMouseLeave={handleLeave} onClick={handleClick} id={players.key} title={players.name} className="btn btn-link btn-sm"><i key={uid} className="fa fa-user" id={players.key} title={players.name} aria-hidden="true"/></button>);
       }
     });
     return(
@@ -159,9 +194,6 @@ class NextPlayer extends Component {
 }
 
 class DiceInput extends Component {
-  // constructor(props){
-  //   super(props);
-  // }
   render(){
     // const handleClick = this.props.handleClick;
     // const handleReset = this.props.handleReset;
@@ -186,7 +218,7 @@ class DiceInput extends Component {
           <div className="digit-box">
               <button onClick={this.props.onClick} className="btn btn-default digit" type="button" key="11" id="11">11</button>
               <button onClick={this.props.onClick} className="btn btn-default digit" type="button" key="12" id="12">12</button>
-              <button onClick={this.props.onClick} className="btn btn-sm digit reset" type="button" key="undo" id="undo">Undo</button>
+              <button onClick={this.props.onUndo} className="btn btn-sm digit reset" type="button" key="undo" id="undo">Undo</button>
           </div>
           <div className="form-group center-block reset">
               <button onClick={this.props.onReset} className="btn btn-default reset" type="button" key="reset" id="reset">Reset roll data</button>
