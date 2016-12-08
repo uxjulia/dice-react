@@ -5,7 +5,6 @@ import PlayerIndicator from './PlayerIndicator.js';
 import DiceInput from './DiceInput.js';
 import Settings from './Settings.js';
 
-
 function Layout(props) {
   return(
     <div className="container">
@@ -51,10 +50,9 @@ class App extends Component {
     this.setState({nextUp: e.target.title});
   }
 
+// TODO: Clean this method up.. 
   handleClick(e) {
-    //var x = this.updateLog(e.target.id);
     this.setNext();
-    //this.setState({rolls: x});
   }
 
   handleUndo() {
@@ -66,7 +64,7 @@ class App extends Component {
   handleReset() {
     this.setState({rolls: []});
   }
-
+//TODO: Standardize the way functions are being written
   getPlayer = () => {
     const players = this.state.players;
     const currentPlayer = this.state.nextUp;
@@ -92,7 +90,6 @@ class App extends Component {
     const data = this.state.rolls;
     const players = this.state.players;
     const nextUp = this.state.nextUp;
-    // const setPlayer = this.setPlayer;
     return (
       <Layout left={<Graph data={data} height="400" color="RGB(103, 151, 224)"/>} right={
         <div>
