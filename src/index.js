@@ -5,7 +5,7 @@ import '../node_modules/tether/dist/js/tether.js';
 import '../node_modules/tether/dist/js/tether.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import './App.css';
-import '../font-awesome-4.7.0/css/font-awesome.css';
+import '../node_modules/font-awesome-4.7.0/css/font-awesome.css';
 import './index.css';
 
 ReactDOM.render(
