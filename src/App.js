@@ -27,44 +27,46 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      players: [{key: 1, name: "Julia"},
-{key: 2, name: "Stella"},
-{key: 3, name: "Mocha"}], 
+      players: [{key: 0, name: ""}], 
       rolls: [2,4,2,8,8,6,7,4,5,3,9,4],
-      nextUp: "Stella",
+      nextUp: "",
     };
-    this.handleClick = this.handleClick.bind(this);
-    this.handleUndo = this.handleUndo.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-    this.setPlayer = this.setPlayer.bind(this);
   }
 
-  updateLog(n) {
+  updateLog = (n) => {
     const data = this.state.rolls;
     var x = n + ", ";
     data.push(x);
     return data;
   }
 
-  setPlayer(e) {
+  setPlayerNames = (e) => {
+    const data = this.state.players;
+    const x = Number(e.target.id) - 1;
+    data[x] = {key: x, name: e.target.value};
+    this.setState({players: data});
+  }
+
+  setNextPlayerName = (e) => {
     this.setState({nextUp: e.target.title});
   }
 
-// TODO: Clean this method up.. 
-  handleClick(e) {
-    this.setNext();
+  handleClick = () => {
+    if (this.state.players.length > 0) {
+      this.setNext();
+    }
   }
 
-  handleUndo() {
+  handleUndo = () => {
     const data = this.state.rolls;
     data.pop();
     this.setState({rolls: data});
   }
 
-  handleReset() {
+  handleReset = () => {
     this.setState({rolls: []});
   }
-//TODO: Standardize the way functions are being written
+
   getPlayer = () => {
     const players = this.state.players;
     const currentPlayer = this.state.nextUp;
@@ -74,16 +76,21 @@ class App extends Component {
     return nx; 
   }
 
-  setNext() {
+  setNext = () => {
     const players = this.state.players;
-    const nextPlayer = this.getPlayer();
-    var x = (nextPlayer.key) + 1;
-    if (x > players.length) x = 1
+    const thisPlayer = this.getPlayer();
+    var x = (thisPlayer.key) + 1;
+    if (players.length === 1 || x == players.length || x === undefined) x = 0;
     var nextPerson = players.find(function(players){   
       return players.key === x;
     });
     const nextName = nextPerson.name;
     this.setState({nextUp: nextName})
+  }
+
+  saveSettings = () => {
+    const firstPlayer = this.state.players[0].name;
+    this.setState({nextUp: firstPlayer});
   }
 
   render() {
@@ -95,11 +102,11 @@ class App extends Component {
         <div>
           <div>
             <div className="form-group">
-              <PlayerIndicator onClick={this.setPlayer} players={players} nextUp={nextUp}/>
+              <PlayerIndicator onClick={this.setNextPlayerName} players={players} nextUp={nextUp}/>
             </div>
             <DiceInput onClick={this.handleClick}/>
             <div className="card card-block">
-              <Settings />
+              <Settings onChange={this.setPlayerNames} onClick={this.saveSettings} />
             </div>
             </div>
         </div>

@@ -18,7 +18,7 @@ class PlayerIndicator extends Component {
 
   render() {
     var totalPlayers = [];
-    var uid = 1;
+    var uid = 0;
     const nextStyle = {color: "red" };
     const boxStyle = {minHeight: "70px"};
     const nextUp = this.props.nextUp;

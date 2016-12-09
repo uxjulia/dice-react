@@ -4,28 +4,20 @@ class Settings extends Component {
   constructor(props){
     super(props);
     this.state = {num: 0, players: []};
-    // this.handleChange = this.handleChange.bind(this);
   }
 
-  setPlayerNames = (e) => {
-    const data = this.state.players;
-    const x = e.target.id;
-    data[x] = {key: x, name: e.target.value};
-    this.setState({players: data})
-  }
-
-  setPlayers = (e) => {
+  handleClick = (e) => {
     this.setState({num: e.target.value});
   }
 
-  render(){
+  render() {
     const players = this.state.num;
     return(
       <div>
-        <Select onChange={this.setPlayers} />
-        <Input players={players} />
+        <Select onChange={this.handleClick}/>
+        <Input players={players} onChange={this.props.onChange} />
         <div className="form-group">
-          <Button className="btn btn-primary pull-right" text="Save" />
+          <Button onClick={this.props.onClick} className="btn btn-primary pull-right" text="Save" />
         </div>
        </div>
     )
@@ -34,13 +26,15 @@ class Settings extends Component {
 
 function Input(props){
   const n = props.players;
+  const onChange = props.onChange;
   var x = 0;
   var inputs = [];
   while (x < n) {
-    inputs.push(<div key={x}className="form-group">
-      <input className="form-control" placeholder={"Player " + (x+1) + "'s Name"} id={props.id} onChange={props.onChange}/>
+     x++;
+    inputs.push(
+      <div key={x} className="form-group">
+        <input key={x} className="form-control" placeholder={"Player " + x + "'s Name"} id={x} onChange={onChange}/>
       </div>);
-    x++;
   }
   return (
     <div className="form-group">
@@ -67,10 +61,9 @@ function Select(props){
 }
 
 function Button(props){
-  return(
+  return (
     <button className={props.className} onClick={props.onClick} id={props.id} title={props.title}>{props.text}</button> 
     )
 }
-
 
 export default Settings;
