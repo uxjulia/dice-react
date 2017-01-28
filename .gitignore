@@ -2,10 +2,8 @@
 
 # dependencies
 node_modules
-font-awesome-4.7.0
 
 # testing
-coverage
 
 # production
 build
@@ -14,3 +12,5 @@ build
 .DS_Store
 .env
 npm-debug.log
+.vscode
+
