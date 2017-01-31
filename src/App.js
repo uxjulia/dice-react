@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './index.css';
-import update from 'immutability-helper';
+var update = require('immutability-helper');
+var _ = require('lodash');
 import ChartController from './components/ChartController.js';
 import Header from './components/Header.js';
-import PlayerIcons from './components/PlayerIcons.js';
 import DiceInput from './components/DiceInput.js';
 import Settings from './components/Settings.js';
 import Footer from './components/Footer.js';
-
-function Player ( id, name ) {
-    this.id = id;
-    this.name = name;
-}
+import PlayerData from './controllers/PlayerData';
 
 function Layout ( props ) {
     return (
@@ -38,101 +34,69 @@ class App extends Component {
     constructor ( props ) {
         super (props);
         this.state = {
-            players: [ { key: 0, name: "" } ],
+            players: ["Julia","Jenie","Stella"],
             rolls: [ 2, 4, 2, 8, 8, 6, 7, 4, 5, 3, 9],
             lastRoll: "", //TODO: remove this and use last number in log
             log: [],
             nextUp: "",
         };
     }
-    
+
     setPlayerNames = ( e ) => {
         const data = this.state.players;
         const x = Number (e.target.id) - 1;
         data[ x ] = { key: x, name: e.target.value };
         this.setState ({ players: data });
     };
-    
+
+    // combine this method with setting next player state
     setNextPlayerName = ( e ) => {
         this.setState ({ nextUp: e.target.title });
     };
-    
+
     handleClick = ( e ) => {
-        if (this.state.players.length > 0) {
-            this.setNext ();
-        }
+        e.preventDefault();
+        // TODO: Set next player (combine with setNextPlayerName)
         const index = Number(e.target.id) - 2;
         const rolls = this.state.rolls;
-        rolls[index] = rolls[index] + 1;
-        let log = update(this.state.log, {$push: [e.target.id]});
+        rolls[index]++;
+        let log = update(this.state.log, {$unshift: [e.target.id]});
         this.setState({rolls: rolls, lastRoll: index, log: log});
     };
-    
-    handleDefaultPlayers = ( e ) => {
-        const players = this.state.players;
-        const val = e.target.value;
-        let x = 0;
-        while (x < val) {
-            const n = x + 1;
-            players[ x ] = { key: x, name: "Player " + n };
-            this.setState ({ players: players[ x ] });
-            x++;
-        }
-        const firstPlayer = this.state.players[ 0 ].name;
-        this.setState ({ nextUp: firstPlayer });
-    };
-    
+
     handleUndo = () => {
-        const rolls = this.state.rolls;
-        const index = this.state.lastRoll;
         const log = this.state.log;
-        log.pop();
-        rolls[index] = rolls[index] - 1;
+        const lr = _.head(log) - 2;
+        const rolls = this.state.rolls;
+        if (rolls[lr] !== 0) {
+            rolls[lr]--;
+        }
+        log.shift();
         this.setState({rolls: rolls, log: log});
     };
-    
+
     handleReset = () => {
         this.chartID++;
         this.setState ({ rolls: [0,0,0,0,0,0,0,0,0,0,0], log: [] });
     };
-    
-    getPlayer = () => {
-        const players = this.state.players;
-        const currentPlayer = this.state.nextUp;
-        return players.find (function ( players ) {
-            return players.name === currentPlayer;
-        });
-    };
-    
-    setNext = () => {
-        const players = this.state.players;
-        const thisPlayer = this.getPlayer ();
-        let x = (thisPlayer.key) + 1;
-        if (players.length === 1 || x === players.length || x === undefined) x = 0;
-        let nextPerson = players.find (function ( players ) {
-            return players.key === x;
-        });
-        const nextName = nextPerson.name;
-        this.setState ({ nextUp: nextName })
-    };
-    
+
     saveSettings = ( e ) => {
         const firstPlayer = this.state.players[ 0 ].name;
         this.setState ({ nextUp: firstPlayer });
         e.preventDefault ();
     };
-    
+
     componentWillMount(){
         this.chartID = 1;
     }
-    
+
     render () {
         const data = this.state.rolls;
-        const players = this.state.players;
-        const nextUp = this.state.nextUp;
         const lastRoll = this.state.lastRoll;
+        const players = this.state.players;
         const handleUndo = this.handleUndo;
         const log = this.state.log;
+        const setNextPlayerName = this.setNextPlayerName;
         return (
             <Layout
                 left={<ChartController key={this.chartID} lastRoll={lastRoll} data={data}/>}
@@ -140,7 +104,7 @@ class App extends Component {
                     <div>
                         <div>
                             <div className="form-group">
-                                <PlayerIcons key={players.length} onClick={this.setNextPlayerName} players={players} nextUp={nextUp}/>
+                                <PlayerData players={players} onClick={setNextPlayerName}/>
                             </div>
                             <DiceInput undo={handleUndo} onReset={this.handleReset} onClick={this.handleClick} log={log}/>
                             <Settings onChange={this.setPlayerNames} onClick={this.saveSettings}/>

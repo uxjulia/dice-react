@@ -1,16 +1,6 @@
 import React, { Component } from 'react';
 let _ = require('lodash');
-
-class LoggedRolls extends Component {
-    render(){
-      let data = _.join(this.props.data, ', ');
-      return(
-          <div className="card card-block" id="loggedRolls">
-              {data}
-          </div>
-      )
-  }
-}
+import LoggedRolls from './LoggedRolls';
 
 class DiceInput extends Component {
 
