@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './index.css';
-var update = require('immutability-helper');
-var _ = require('lodash');
+let update = require('immutability-helper');
+let _ = require('lodash');
 import ChartController from './components/ChartController.js';
 import Header from './components/Header.js';
 import DiceInput from './components/DiceInput.js';
@@ -11,7 +11,7 @@ import Settings from './components/Settings.js';
 import Footer from './components/Footer.js';
 import PlayerData from './controllers/PlayerData';
 
-function Layout ( props ) {
+function SiteLayout( props ) {
     return (
         <div className="container">
             <Header title="Dice Roll Counter"/>
@@ -36,7 +36,6 @@ class App extends Component {
         this.state = {
             players: ["Julia","Jenie","Stella"],
             rolls: [ 2, 4, 2, 8, 8, 6, 7, 4, 5, 3, 9],
-            lastRoll: "", //TODO: remove this and use last number in log
             log: [],
             nextUp: "",
         };
@@ -44,7 +43,7 @@ class App extends Component {
 
     setPlayerNames = ( e ) => {
         const data = this.state.players;
-        const x = Number (e.target.id) - 1;
+        const x = Number(e.target.id) - 1;
         data[ x ] = { key: x, name: e.target.value };
         this.setState ({ players: data });
     };
@@ -61,15 +60,15 @@ class App extends Component {
         const rolls = this.state.rolls;
         rolls[index]++;
         let log = update(this.state.log, {$unshift: [e.target.id]});
-        this.setState({rolls: rolls, lastRoll: index, log: log});
+        this.setState({rolls: rolls, log: log});
     };
 
     handleUndo = () => {
         const log = this.state.log;
-        const lr = _.head(log) - 2;
+        const lastRoll = _.head(log) - 2;
         const rolls = this.state.rolls;
-        if (rolls[lr] !== 0) {
-            rolls[lr]--;
+        if (rolls[lastRoll] !== 0) {
+            rolls[lastRoll]--;
         }
         log.shift();
         this.setState({rolls: rolls, log: log});
@@ -92,13 +91,13 @@ class App extends Component {
 
     render () {
         const data = this.state.rolls;
-        const lastRoll = this.state.lastRoll;
         const players = this.state.players;
-        const handleUndo = this.handleUndo;
         const log = this.state.log;
+        const lastRoll = _.head(log);
+        const handleUndo = this.handleUndo;
         const setNextPlayerName = this.setNextPlayerName;
         return (
-            <Layout
+            <SiteLayout
                 left={<ChartController key={this.chartID} lastRoll={lastRoll} data={data}/>}
                 right={
                     <div>
