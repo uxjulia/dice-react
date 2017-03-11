@@ -34,16 +34,15 @@ class Accordian extends Component {
     const toggle = this.state.toggle;
     const handleClick = this.handleClick;
         return(
-            <div id="settings" role="tablist" aria-multiselectable="true">
+            <div id="settings" role="tablist">
                 <div className="card">
-                    <div className="card-header" role="tab" id="headingOne">
+                    <div className="card-header" role="tab" id="settingsTab">
                         <h6 className="mb-0">
                             Settings
                             <Caret onClick={handleClick} toggle={toggle}/>
                         </h6>
                     </div>
-
-                    <div id="settingsContent" className="collapse in" role="tabpanel" aria-labelledby="headingOne">
+                    <div id="settingsContent" className="collapse in" role="tabpanel" aria-labelledby="settingsTab">
                         <div className="card-block">
                             {this.props.content}
                         </div>

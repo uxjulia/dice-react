@@ -33,7 +33,7 @@ class DiceInput extends Component {
               <button onClick={this.props.undo} className="btn btn-sm digit reset" type="button" key="undo" id="undo">Undo</button>
           </div>
           <div className="form-group center-block reset">
-              <button onClick={this.props.onReset} className="btn btn-default reset" type="button" key="reset" id="reset">Reset roll data</button>
+              <button onClick={this.props.onReset} className="btn reset" type="button" key="reset" id="reset">Start New Game</button>
           </div>
         </div>
       </div>

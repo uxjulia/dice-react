@@ -74,7 +74,7 @@ class Settings extends Component {
                         <form>
                             <Input players={totalPlayers} onChange={onChange} />
                             <Button onClick={handleReset} type="reset" className="btn" value="Clear">
-                                Clear
+                                Clear Names
                             </Button>
                         </form>
                       </div>
