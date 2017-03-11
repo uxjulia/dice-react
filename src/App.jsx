@@ -34,11 +34,34 @@ function nextPlayer(activePlayer) {
     return activePlayer + 1;
 }
 
+function resetPlayers(oldTotal, newTotal, playerArr){
+    const diff = oldTotal - newTotal;
+    if (newTotal < oldTotal ) {
+        playerArr.splice(newTotal, diff);
+    }
+    if (newTotal > oldTotal){
+        let x = playerArr.length;
+        while (x < newTotal) {
+            x++;
+            playerArr.push("Player " + x );
+        }
+    }
+    if (newTotal === oldTotal){
+        let x = 0;
+        while (x < newTotal) {
+            playerArr[x] = "Player " + (x + 1) ;
+            console.log(playerArr);
+            x++;
+        }
+    }
+    return playerArr;
+}
+
 class App extends Component {
     constructor ( props ) {
         super (props);
         this.state = {
-            players: ["Julia","Jenie","Stella"],
+            players: [],
             rolls: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             log: [],
             activePlayer: 0,
@@ -47,22 +70,21 @@ class App extends Component {
 
     setPlayerNames = ( e ) => {
         const data = this.state.players;
-        const x = Number(e.target.id) - 1;
-        data[ x ] = { key: x, name: e.target.value };
-        this.setState ({ players: data });
-    };
-
-    setNextPlayerName = ( e ) => {
-        this.setState ({ activePlayer: Number(e.target.id)});
+        const x = Number(e.target.id);
+        data[ x ] = e.target.value;
+        this.setState({ players: data });
     };
     
-    setActivePlayer = () => {
-        const activePlayer = this.state.activePlayer;
-        const next = nextPlayer(activePlayer);
-        if (next === this.state.players.length) {
-            this.setState ({ activePlayer: 0 })
-        } else this.setState ({ activePlayer: next })
-        
+    setActivePlayer = (e) => {
+        if (e) {
+            this.setState ({ activePlayer: Number (e.target.id) });
+        } else {
+            const activePlayer = this.state.activePlayer;
+            const next = nextPlayer (activePlayer);
+            if (next === this.state.players.length) {
+                this.setState ({ activePlayer: 0 })
+            } else this.setState ({ activePlayer: next })
+        }
     };
 
     handleClick = ( e ) => {
@@ -90,11 +112,22 @@ class App extends Component {
         this.chartID++;
         this.setState ({ rolls: [0,0,0,0,0,0,0,0,0,0,0], log: [] });
     };
-
-    saveSettings = ( e ) => {
-        const firstPlayer = this.state.players[ 0 ].name;
-        this.setState ({ nextUp: firstPlayer });
-        e.preventDefault ();
+    
+    clearPlayerNames = () => {
+        const total = this.state.players.length;
+        const players = this.state.players;
+        const newPlayerArr = resetPlayers(total, total, players);
+        const newPlayers = update(players, {$set: newPlayerArr});
+        this.setState({ players: newPlayers });
+    };
+    
+    handleSelect = (e) => {
+        const oldTotal = this.state.players.length;
+        let newTotal = e.target.value === "Clear" ? oldTotal : Number(e.target.value);
+        const players = this.state.players;
+        const newPlayerArr = resetPlayers(oldTotal, newTotal, players);
+        const newPlayers = update(players, {$set: newPlayerArr});
+        this.setState({ players: newPlayers });
     };
 
     componentWillMount(){
@@ -105,13 +138,18 @@ class App extends Component {
         const data = this.state.rolls;
         const players = this.state.players;
         const log = this.state.log;
+        const activePlayer = this.state.activePlayer;
         const lastRoll = _.head(log);
         const handleUndo = this.handleUndo;
-        const activePlayer = this.state.activePlayer;
-        const playerData = {
+        const playerProps = {
             players: players,
             activePlayer: activePlayer,
-            onClick: this.setNextPlayerName
+            onClick: this.setActivePlayer
+        };
+        const selectProps = {
+            handleSelect: this.handleSelect,
+            onChange    : this.setPlayerNames,
+            handleReset : this.clearPlayerNames
         };
         return (
             <SiteLayout
@@ -120,10 +158,10 @@ class App extends Component {
                     <div>
                         <div>
                             <div className="form-group">
-                                <PlayerData {...playerData}/>
+                                <PlayerData {...playerProps} />
                             </div>
                             <DiceInput undo={handleUndo} onReset={this.handleReset} onClick={this.handleClick} log={log}/>
-                            <Settings onChange={this.setPlayerNames} onClick={this.saveSettings}/>
+                            <Settings {...selectProps} />
                         </div>
                     </div>
                 }

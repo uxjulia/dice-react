@@ -84,8 +84,8 @@ class PlayerData extends Component {
         const nextPlayerName = this.props.players[activePlayer];
         return(
             <div key={activePlayer}>
-                {players.length && <div>{players}</div>}
-                <p>Next Player: {nextPlayerName}</p>
+                {players.length !== 0 && <div><div>{players}</div>
+                    <p>Next Player: {nextPlayerName}</p></div>}
             </div>
          )
     }
