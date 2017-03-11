@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-var _ = require('lodash');
+let _ = require('lodash');
 
 function Player(name, id){
     this.id = id.toString();
@@ -21,21 +21,25 @@ function players(arr){
 function ActiveIcon(props){
     const style = {color: "#C53437"};
     return(
-        <i id={props.player.id} style={style} title={props.player.name} className="fa fa-user" aria-hidden="true"/>
+        <i id={props.player.id} style={style} className="fa fa-user" aria-hidden="true"/>
      )
 }
 
 function InactiveIcon(props){
-    return(<i id={props.player.id} title={props.player.name} className="fa fa-user" aria-hidden="true"/>)
+    return(<i id={props.player.id} className="fa fa-user" aria-hidden="true"/>)
 }
 
 function PlayerIcon(props) {
     const style = {
         cursor: "pointer",
         margin: "4px"
-    }
+    };
+    const handleClick = (e) => {
+        console.log(e.target.id);
+        props.onClick(e);
+    };
     return(
-        <span style={style} title={props.player.name} onClick={props.onClick}>
+        <span id={props.player.id} style={style} title={props.player.name} onClick={handleClick}>
             {props.active && <ActiveIcon {...props}/>}
             {!props.active && <InactiveIcon {...props}/>}
         </span>
@@ -45,7 +49,7 @@ function PlayerIcon(props) {
 class PlayerData extends Component {
     constructor(props){
         super(props);
-        this.state = {players: {}, activePlayer:"1", uiRender: []};
+        this.state = {players: {}, uiRender: []};
     }
 
     makePlayer = (arr) => {
@@ -55,9 +59,9 @@ class PlayerData extends Component {
 
     makeIcons = (arr) => {
         const playerI = [];
-        const handleClick = this.handleClick;
+        const handleClick = this.props.onClick;
         _.each(arr, (i) => {
-            if (i.id === this.state.activePlayer){
+            if (i.id === this.props.activePlayer){
                 playerI.push(<PlayerIcon active key={i.id} player={i} onClick={handleClick}/>);
             } else {
                 playerI.push(<PlayerIcon key={i.id} player={i} onClick={handleClick}/>);
@@ -66,11 +70,11 @@ class PlayerData extends Component {
         return playerI;
     };
 
-    handleClick = (e) => {
-        e.preventDefault();
-        this.setState({activePlayer: e.target.id});
-        this.props.onClick(e);
-    };
+    // handleClick = (e) => {
+    //     e.preventDefault();
+    //     this.setState({activePlayer: e.target.id});
+    //     this.props.onClick(e);
+    // };
 
     componentWillMount(){
         this.makePlayer(this.props.players);
@@ -82,8 +86,7 @@ class PlayerData extends Component {
 
     render(){
         const players = this.makeIcons(this.state.players);
-        const activePlayer = this.state.activePlayer;
-
+        const activePlayer = this.props.activePlayer;
         return(
             <div key={activePlayer}>
                 {players.length && <div>{players}</div>}

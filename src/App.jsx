@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './index.css';
-let update = require('immutability-helper');
+import update from 'immutability-helper';
 let _ = require('lodash');
-import ChartController from './components/ChartController.js';
-import Header from './components/Header.js';
-import DiceInput from './components/DiceInput.js';
-import Settings from './components/Settings.js';
-import Footer from './components/Footer.js';
-import PlayerData from './controllers/PlayerData';
+import ChartController from './components/ChartController.jsx';
+import Header from './components/Header.jsx';
+import DiceInput from './components/DiceInput.jsx';
+import Settings from './components/Settings.jsx';
+import Footer from './components/Footer.jsx';
+import PlayerData from './controllers/PlayerData.jsx';
 
 function SiteLayout( props ) {
     return (
@@ -35,9 +35,9 @@ class App extends Component {
         super (props);
         this.state = {
             players: ["Julia","Jenie","Stella"],
-            rolls: [ 2, 4, 2, 8, 8, 6, 7, 4, 5, 3, 9],
+            rolls: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             log: [],
-            nextUp: "",
+            activePlayer: "0",
         };
     }
 
@@ -48,9 +48,9 @@ class App extends Component {
         this.setState ({ players: data });
     };
 
-    // combine this method with setting next player state
+    // TODO: Combine setNextPlayerName method with setting next player state
     setNextPlayerName = ( e ) => {
-        this.setState ({ nextUp: e.target.title });
+        this.setState ({ activePlayer: e.target.id });
     };
 
     handleClick = ( e ) => {
@@ -95,7 +95,12 @@ class App extends Component {
         const log = this.state.log;
         const lastRoll = _.head(log);
         const handleUndo = this.handleUndo;
-        const setNextPlayerName = this.setNextPlayerName;
+        const activePlayer = this.state.activePlayer;
+        const playerData = {
+            players: players,
+            activePlayer: activePlayer,
+            onClick: this.setNextPlayerName
+        };
         return (
             <SiteLayout
                 left={<ChartController key={this.chartID} lastRoll={lastRoll} data={data}/>}
@@ -103,7 +108,7 @@ class App extends Component {
                     <div>
                         <div>
                             <div className="form-group">
-                                <PlayerData players={players} onClick={setNextPlayerName}/>
+                                <PlayerData {...playerData}/>
                             </div>
                             <DiceInput undo={handleUndo} onReset={this.handleReset} onClick={this.handleClick} log={log}/>
                             <Settings onChange={this.setPlayerNames} onClick={this.saveSettings}/>
