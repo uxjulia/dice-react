@@ -30,6 +30,10 @@ function SiteLayout( props ) {
     )
 }
 
+function nextPlayer(activePlayer) {
+    return activePlayer + 1;
+}
+
 class App extends Component {
     constructor ( props ) {
         super (props);
@@ -37,7 +41,7 @@ class App extends Component {
             players: ["Julia","Jenie","Stella"],
             rolls: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             log: [],
-            activePlayer: "0",
+            activePlayer: 0,
         };
     }
 
@@ -48,19 +52,27 @@ class App extends Component {
         this.setState ({ players: data });
     };
 
-    // TODO: Combine setNextPlayerName method with setting next player state
     setNextPlayerName = ( e ) => {
-        this.setState ({ activePlayer: e.target.id });
+        this.setState ({ activePlayer: Number(e.target.id)});
+    };
+    
+    setActivePlayer = () => {
+        const activePlayer = this.state.activePlayer;
+        const next = nextPlayer(activePlayer);
+        if (next == this.state.players.length) {
+            this.setState ({ activePlayer: 0 })
+        } else this.setState ({ activePlayer: next })
+        
     };
 
     handleClick = ( e ) => {
         e.preventDefault();
-        // TODO: Set next player (combine with setNextPlayerName)
         const index = Number(e.target.id) - 2;
         const rolls = this.state.rolls;
         rolls[index]++;
         let log = update(this.state.log, {$unshift: [e.target.id]});
         this.setState({rolls: rolls, log: log});
+        this.setActivePlayer();
     };
 
     handleUndo = () => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 let _ = require('lodash');
 
 function Player(name, id){
-    this.id = id.toString();
+    this.id = id;
     this.name = name;
 }
 
@@ -69,13 +69,7 @@ class PlayerData extends Component {
         });
         return playerI;
     };
-
-    // handleClick = (e) => {
-    //     e.preventDefault();
-    //     this.setState({activePlayer: e.target.id});
-    //     this.props.onClick(e);
-    // };
-
+    
     componentWillMount(){
         this.makePlayer(this.props.players);
     };
