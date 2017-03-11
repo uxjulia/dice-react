@@ -110,7 +110,7 @@ class App extends Component {
 
     handleReset = () => {
         this.chartID++;
-        this.setState ({ rolls: [0,0,0,0,0,0,0,0,0,0,0], log: [] });
+        this.setState ({ rolls: [0,0,0,0,0,0,0,0,0,0,0], log: [], activePlayer: 0 });
     };
     
     clearPlayerNames = () => {
