@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './index.css';
 import update from 'immutability-helper';
-let _ = require('lodash');
+import _ from 'lodash';
 import ChartController from './components/ChartController.jsx';
 import Header from './components/Header.jsx';
 import DiceInput from './components/DiceInput.jsx';
