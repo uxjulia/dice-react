@@ -3,7 +3,6 @@ let _ = require('lodash');
 import LoggedRolls from './LoggedRolls';
 
 class DiceInput extends Component {
-
   render(){
     const handleClick = this.props.onClick;
     const log = this.props.log;

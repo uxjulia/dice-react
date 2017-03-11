@@ -6,10 +6,10 @@ class Footer extends Component {
 			fontSize: ".9rem",
 			backgroundColor: "white",
 			height: "50px"
-		}
+		};
 		const heartColor = {
 			color: "#C53437"
-		}
+		};
 		return(
 			<nav style={style} className="navbar-fixed-bottom">
 				<div className="container">
