@@ -81,10 +81,11 @@ class PlayerData extends Component {
     render(){
         const players = this.makeIcons(this.state.players);
         const activePlayer = this.props.activePlayer;
+        const nextPlayerName = this.props.players[activePlayer];
         return(
             <div key={activePlayer}>
                 {players.length && <div>{players}</div>}
-                <p>Next Player: </p>
+                <p>Next Player: {nextPlayerName}</p>
             </div>
          )
     }

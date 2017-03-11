@@ -59,7 +59,7 @@ class App extends Component {
     setActivePlayer = () => {
         const activePlayer = this.state.activePlayer;
         const next = nextPlayer(activePlayer);
-        if (next == this.state.players.length) {
+        if (next === this.state.players.length) {
             this.setState ({ activePlayer: 0 })
         } else this.setState ({ activePlayer: next })
         
