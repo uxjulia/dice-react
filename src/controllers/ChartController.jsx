@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Chart from 'chart.js';
+let Chart = require('chart.js');
 
 const chartSettings = { 
 	labels: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
