@@ -5,7 +5,7 @@ class Footer extends Component {
 		const style = {
 			fontSize: ".9rem",
 			backgroundColor: "white",
-			height: "50px"
+			height: "30px"
 		};
 		const heartColor = {
 			color: "#C53437"

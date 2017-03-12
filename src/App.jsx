@@ -13,7 +13,7 @@ import PlayerData from './controllers/PlayerData.jsx';
 
 function SiteLayout( props ) {
     return (
-        <div className="container">
+        <div className="container-fluid">
             <Header title="Dice Roll Counter"/>
             <div className="row">
                 <div className="col-md-12">
