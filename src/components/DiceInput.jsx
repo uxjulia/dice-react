@@ -1,51 +1,14 @@
 import React, { Component } from 'react';
-
-class LoggedRolls extends Component {
-  render(){
-    return(
-      <div className="card card-block" id="loggedRolls">
-        {this.props.data}
-      </div>
-    )
-  }
-}
+let _ = require('lodash');
+import LoggedRolls from './LoggedRolls';
 
 class DiceInput extends Component {
-  constructor(props){
-    super(props);
-    this.state = {rolls:[]};
-  }
-
-  updateLog = (n) => {
-    const data = this.state.rolls;
-    var x = n + ", ";
-    data.push(x);
-    return data;
-  }
-
-  handleClick = (e) => {
-    const n = e.target.id;
-    const dataToLog = this.updateLog(n);
-    this.props.onClick();
-    this.setState({rolls: dataToLog });
-  }
-
-  undo = () => {
-    const data = this.state.rolls;
-    data.pop();
-    this.setState({rolls: data});
-  }
-
-  reset = () => {
-    this.setState({rolls: []});
-  }
-
   render(){
-    const handleClick = this.handleClick;
-    const rolls = this.state.rolls;
+    const handleClick = this.props.onClick;
+    const log = this.props.log;
     return(
       <div>
-      <LoggedRolls data={rolls}/>
+      <LoggedRolls data={log}/>
       <div className="card mx-auto" id="numberInputs">
         <div className="mx-auto" id="buttonContainer">
           <div className="digit-box">
@@ -66,10 +29,10 @@ class DiceInput extends Component {
           <div className="digit-box">
               <button onClick={handleClick} className="btn btn-default digit" type="button" key="11" id="11">11</button>
               <button onClick={handleClick} className="btn btn-default digit" type="button" key="12" id="12">12</button>
-              <button onClick={this.undo} className="btn btn-sm digit reset" type="button" key="undo" id="undo">Undo</button>
+              <button onClick={this.props.undo} className="btn btn-sm digit reset" type="button" key="undo" id="undo">Undo</button>
           </div>
           <div className="form-group center-block reset">
-              <button onClick={this.reset} className="btn btn-default reset" type="button" key="reset" id="reset">Reset roll data</button>
+              <button onClick={this.props.onReset} className="btn reset" type="button" key="reset" id="reset">Start New Game</button>
           </div>
         </div>
       </div>
