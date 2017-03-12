@@ -135,12 +135,13 @@ class App extends Component {
     }
 
     render () {
+        const log = this.state.log;
         const lastRoll = _.head(log);
         const diceProps = {
             undo: this.handleUndo,
             onReset: this.handleReset,
             onClick: this.handleClick,
-            log: this.state.log
+            log: log
           };
         const chartProps = {
             key: this.chartID,
