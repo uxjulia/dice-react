@@ -4,7 +4,7 @@ import './App.css';
 import './index.css';
 import update from 'immutability-helper';
 import _ from 'lodash';
-import ChartController from './components/ChartController.jsx';
+import ChartController from './controllers/ChartController.jsx';
 import Header from './components/Header.jsx';
 import DiceInput from './components/DiceInput.jsx';
 import Settings from './components/Settings.jsx';
