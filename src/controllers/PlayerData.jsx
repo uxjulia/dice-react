@@ -83,7 +83,7 @@ class PlayerData extends Component {
         const activePlayer = this.props.activePlayer;
         const nextPlayerName = this.props.players[activePlayer];
         return(
-            <div key={activePlayer}>
+            <div key={activePlayer} className="form-group">
                 {players.length !== 0 && <div><div>{players}</div>
                     <p>Next Player: {nextPlayerName}</p></div>}
             </div>

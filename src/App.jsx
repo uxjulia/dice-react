@@ -77,7 +77,7 @@ class App extends Component {
     
     setActivePlayer = (e) => {
         if (e) {
-            this.setState ({ activePlayer: Number (e.target.id) });
+            this.setState ({ activePlayer: Number(e.target.id) });
         } else {
             const activePlayer = this.state.activePlayer;
             const next = nextPlayer (activePlayer);
@@ -135,38 +135,39 @@ class App extends Component {
     }
 
     render () {
-        const data = this.state.rolls;
-        const players = this.state.players;
-        const log = this.state.log;
-        const activePlayer = this.state.activePlayer;
         const lastRoll = _.head(log);
-        const handleUndo = this.handleUndo;
+        const diceProps = {
+            undo: this.handleUndo,
+            onReset: this.handleReset,
+            onClick: this.handleClick,
+            log: this.state.log
+          };
+        const chartProps = {
+            key: this.chartID,
+            lastRoll: lastRoll,
+            data: this.state.rolls
+          };
         const playerProps = {
-            players: players,
-            activePlayer: activePlayer,
+            players: this.state.players,
+            activePlayer: this.state.activePlayer,
             onClick: this.setActivePlayer
-        };
+          };
         const selectProps = {
             handleSelect: this.handleSelect,
-            onChange    : this.setPlayerNames,
-            handleReset : this.clearPlayerNames
-        };
+            onChange: this.setPlayerNames,
+            handleReset: this.clearPlayerNames
+          };
         return (
             <SiteLayout
-                left={<ChartController key={this.chartID} lastRoll={lastRoll} data={data}/>}
+                left={ <ChartController {...chartProps} /> }
                 right={
                     <div>
-                        <div>
-                            <div className="form-group">
-                                <PlayerData {...playerProps} />
-                            </div>
-                            <DiceInput undo={handleUndo} onReset={this.handleReset} onClick={this.handleClick} log={log}/>
-                            <Settings {...selectProps} />
-                        </div>
-                    </div>
+                        <PlayerData {...playerProps} />
+                        <DiceInput {...diceProps} />
+                        <Settings {...selectProps} />
+                    </div>   
                 }
-                footer={<Footer/>}
-            />
+                footer={ <Footer/> } />
         );
     }
 }
