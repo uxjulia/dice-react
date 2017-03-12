@@ -14,7 +14,7 @@ import PlayerData from './controllers/PlayerData.jsx';
 function SiteLayout( props ) {
     return (
         <div className="container-fluid">
-            <Header title="Dice Roll Counter"/>
+            <Header title="Dice Roll Tracker"/>
             <div className="row">
                 <div className="col-md-12">
                     <div className="col-md-8">
