@@ -125,8 +125,10 @@ div.last-roll {
   font-size: 15.4px;
   padding: 5px 15px; }
 
-div#rolls :first-child {
-  color: #D54343; }
+.rolllog :first-child {
+  color: #D54343;
+  font-weight: bold;
+}
 
 span.last-roll-title {
   padding-right: 10px; }
