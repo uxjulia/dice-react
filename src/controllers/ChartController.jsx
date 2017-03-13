@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-//let Chart = require('chart.js');
 import Chart from 'chart.js';
-let lineChart = new Chart({...});
 
 const chartSettings = { 
 	labels: ["2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
@@ -41,7 +39,6 @@ class ChartController extends Component {
     
 	componentDidMount(){
 		this.initChart();
-        console.log("Mounted!");
 	};
 
     componentDidUpdate(){
