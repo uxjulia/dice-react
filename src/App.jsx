@@ -27,7 +27,7 @@ function nextPlayer ( activePlayer, option ) {
 function SiteLayout ( props ) {
     return (
         <div>
-            <Header title="Dice Roll Counter"/>
+            <Header title="Dice Roll Tracker"/>
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
