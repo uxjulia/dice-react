@@ -10,6 +10,7 @@ import DiceInput from './components/DiceInput.jsx';
 import Settings from './components/Settings.jsx';
 import Footer from './components/Footer.jsx';
 import PlayerData from './controllers/PlayerData.jsx';
+
 function nextPlayer ( activePlayer, option ) {
     let x = null;
     switch (option) {
@@ -24,7 +25,8 @@ function nextPlayer ( activePlayer, option ) {
     }
     return x;
 }
-function SiteLayout ( props ) {
+
+function SiteLayout( props ) {
     return (
         <div>
             <Header title="Dice Roll Tracker"/>
@@ -44,7 +46,8 @@ function SiteLayout ( props ) {
         </div>
     )
 }
-function resetPlayers ( oldTotal, newTotal, playerArr ) {
+
+function resetPlayers( oldTotal, newTotal, playerArr ) {
     const diff = oldTotal - newTotal;
     if (newTotal < oldTotal) {
         playerArr.splice (newTotal, diff);
@@ -60,12 +63,12 @@ function resetPlayers ( oldTotal, newTotal, playerArr ) {
         let x = 0;
         while (x < newTotal) {
             playerArr[ x ] = "Player " + (x + 1);
-            console.log (playerArr);
             x++;
         }
     }
     return playerArr;
 }
+
 class App extends Component {
     constructor ( props ) {
         super (props);
@@ -76,7 +79,6 @@ class App extends Component {
             activePlayer: 0,
         };
     }
-    
     setPlayerNames = ( e ) => {
         const data = this.state.players;
         const x = Number (e.target.id);
@@ -137,14 +139,14 @@ class App extends Component {
         const players = this.state.players;
         const newPlayerArr = resetPlayers (oldTotal, newTotal, players);
         const newPlayers = update (players, { $set: newPlayerArr });
-        this.setState ({ players: newPlayers });
+        this.setState ({ players: newPlayers, activePlayer: 0 });
     };
     
-    componentWillMount () {
+    componentWillMount() {
         this.chartID = 1;
     }
     
-    render () {
+    render() {
         const log = this.state.log;
         const lastRoll = _.head (log);
         const diceProps = {
