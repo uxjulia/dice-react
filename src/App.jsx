@@ -10,6 +10,49 @@ import DiceInput from './components/DiceInput.jsx';
 import Settings from './components/Settings.jsx';
 import Footer from './components/Footer.jsx';
 import PlayerData from './controllers/PlayerData.jsx';
+import $ from 'jquery';
+
+const $doc = $(window);
+
+function testLog(n) {
+    if (n === "undo"){
+        return "undo";
+    } else {
+        const x = Number(n);
+        return (x >= 2 && x <= 13) ? true : false;
+    }
+}
+
+function keyCode(x){
+    let n;
+    switch(x) {
+        case "1": n = "11";
+        break;
+        case "0": n = "10";
+        break;
+        case "-": n = "11";
+        break;
+        case "=": n = "12";
+        break;
+        default: n = x;
+        break;
+    }
+    if (testLog(n) === true) {
+        return n;
+    } else { return false }
+}
+
+function logKey(event){
+    if (event){
+        if (event.which) {
+            return keyCode(String.fromCharCode(event.keyCode)); // IE
+        } else if (event.which !== 0 && event.charCode !== 0) {
+            return keyCode(String.fromCharCode(event.which)) // All other browsers
+        } else {
+            return null // Special Key
+        }
+    }
+}
 
 function nextPlayer ( activePlayer, option ) {
     let x = null;
@@ -103,11 +146,19 @@ class App extends Component {
         }
     };
     handleClick = ( e ) => {
-        e.preventDefault ();
+        e.preventDefault();
         const index = Number (e.target.id) - 2;
         const rolls = this.state.rolls;
         rolls[ index ]++;
         let log = update (this.state.log, { $unshift: [ e.target.id ] });
+        this.setState ({ rolls: rolls, log: log });
+        this.setActivePlayer (null, "next");
+    };
+    handlePress = (n) => {
+        const index = Number(n) - 2;
+        const rolls = this.state.rolls;
+        rolls[ index ]++;
+        let log = update(this.state.log, { $unshift: [ n ] });
         this.setState ({ rolls: rolls, log: log });
         this.setActivePlayer (null, "next");
     };
@@ -144,6 +195,13 @@ class App extends Component {
     
     componentWillMount() {
         this.chartID = 1;
+    }
+
+    componentDidMount() {
+        const handlePress = this.handlePress;
+        $doc.on('keypress', function(e){
+            if ( logKey(e) !== false ){ handlePress(logKey(e)) }
+        });
     }
     
     render() {
