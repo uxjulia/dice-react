@@ -2,11 +2,13 @@
   "name": "dice-react-app",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=8"
+  },
   "devDependencies": {
     "husky": "^0.14.3",
     "prettier": "1.12.1",
     "pretty-quick": "^1.4.1",
-    "react-scripts": "0.8.0",
     "surge": "^0.20.1"
   },
   "dependencies": {
@@ -16,9 +18,15 @@
     "chart.js": "^2.7.2",
     "jquery": "^3.1.1",
     "lodash": "^4.17.4",
+    "mobx": "^4.2.1",
+    "mobx-react": "^5.1.2",
     "popper.js": "^1.14.3",
     "react": "^16.3.2",
-    "react-dom": "^16.3.2"
+    "react-app-rewire-mobx": "^1.0.8",
+    "react-app-rewire-provide-plugin": "^1.0.0",
+    "react-app-rewired": "^1.5.2",
+    "react-dom": "^16.3.2",
+    "react-scripts": "^1.1.4"
   },
   "husky": {
     "hooks": {
@@ -26,10 +34,9 @@
     }
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
     "test": "echo \"No tests defined\"",
-    "eject": "react-scripts eject",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2"
+    "eject": "react-scripts eject"
   }
 }
