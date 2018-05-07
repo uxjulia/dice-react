@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "husky": "^0.14.3",
+    "prettier": "1.12.1",
+    "pretty-quick": "^1.4.1",
     "react-scripts": "0.8.0",
     "surge": "^0.20.1"
   },
@@ -16,6 +19,11 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "tether": "^1.4.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   },
   "scripts": {
     "start": "react-scripts start",
