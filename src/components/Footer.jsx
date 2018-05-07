@@ -11,7 +11,7 @@ class Footer extends Component {
 			color: "#C53437"
 		};
 		return(
-			<nav style={style} className="navbar-fixed-bottom">
+			<nav style={style} className="navbar-fixed-bottom d-sm-none d-md-block">
 				<div className="container">
 					<center><span>made with <span style={heartColor}><i className="fa fa-heart" /></span> by uxjulia</span></center>
 				</div>

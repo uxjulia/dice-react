@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Header extends Component{
   render(){
     return(
-      <header className="site-header">
+      <header className="site-header d-sm-none d-md-block">
           <div className="site-icon">
               <div className="dice-box">
                   <div className="dice rotate_right">
