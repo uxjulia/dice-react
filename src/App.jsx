@@ -10,6 +10,9 @@ import DiceInput from './components/DiceInput.jsx';
 import Settings from './components/Settings.jsx';
 import Footer from './components/Footer.jsx';
 import PlayerData from './controllers/PlayerData.jsx';
+import faUser from '@fortawesome/fontawesome'
+fontawesome.library.add(faUser) // Using new FontAwesome API
+
 function nextPlayer ( activePlayer, option ) {
     let x = null;
     switch (option) {
@@ -156,7 +159,7 @@ class App extends Component {
         const chartProps = {
             key     : this.chartID,
             lastRoll: lastRoll,
-            data    : this.state.rolls
+            rolls    : this.state.rolls
         };
         const playerProps = {
             players     : this.state.players,
